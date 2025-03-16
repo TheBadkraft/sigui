@@ -35,6 +35,7 @@ make clean         # Cleans build artifacts
 
 ### Status  
 See [Current Status][2] for sprint progress and task list.  
+Also, check out the [To-Do List][3] for ways to get involved.  
 
 ### Contributing  
 - Define test cases before coding (see *[Current Status]*[2] for process).
@@ -46,4 +47,5 @@ See [Current Status][2] for sprint progress and task list.
 
 [1]: https://github.com/TheBadkraft/sigcore  
 [2]: https://github.com/TheBadkraft/sigui/blob/main/docs/current_status.md  
-[3]: https://github.com/TheBadkraft/sigui/blob/main/LICENSE
+[3]: https://github.com/TheBadkraft/gigui/blob/main/docs/to_do_list.md  
+[4]: https://github.com/TheBadkraft/sigui/blob/main/LICENSE
