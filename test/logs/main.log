@@ -1,0 +1,68 @@
+[Main] module=MainWindow
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> event module=MainWindow
+    <window_module> Mouse pressed at (0, 0)
+   <Dispatch> enqueued command
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=show_message
+   <Dispatch> command=show_message valid=TRUE target=MainWindow
+    <command> Showing message from module MainWindow
+   <Dispatch> end
+   Rendering module: MainWindow
+       <window_module> rendering : input { Mouse (x=0, y=0) Button=1 } { Keyboard Space=0 }
+--- Frame End ---
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> event module=MainWindow
+   <Dispatch> begin
+   Rendering module: MainWindow
+       <window_module> rendering : input { Mouse (x=10, y=20) Button=0 } { Keyboard Space=0 }
+--- Frame End ---
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> event module=MainWindow
+    <window_module> Mouse pressed at (20, 40)
+   <Dispatch> enqueued command
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=show_message
+   <Dispatch> command=show_message valid=TRUE target=MainWindow
+    <command> Showing message from module MainWindow
+   <Dispatch> end
+   Rendering module: MainWindow
+       <window_module> rendering : input { Mouse (x=20, y=40) Button=1 } { Keyboard Space=0 }
+--- Frame End ---
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> equeued event
+   <Dispatch> event module=MainWindow
+   <Dispatch> event module=MainWindow
+    <window_module> Space key pressed
+   <Dispatch> enqueued command
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=toggle_state
+   <Dispatch> command=toggle_state valid=TRUE target=MainWindow
+    <command> Toggled state to 0
+   <Dispatch> end
+   Rendering module: MainWindow
+       <window_module> rendering : input { Mouse (x=30, y=60) Button=0 } { Keyboard Space=1 }
+--- Frame End ---
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> equeued event
+   <Dispatch> event module=MainWindow
+    <window_module> Mouse pressed at (40, 80)
+   <Dispatch> enqueued command
+   <Dispatch> event module=MainWindow
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=show_message
+   <Dispatch> command=show_message valid=TRUE target=MainWindow
+    <command> Showing message from module MainWindow
+   <Dispatch> end
+   Rendering module: MainWindow
+       <window_module> rendering : input { Mouse (x=40, y=80) Button=1 } { Keyboard Space=0 }
+--- Frame End ---

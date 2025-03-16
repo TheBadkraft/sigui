@@ -1,0 +1,2 @@
+1. we referenced `ui_context` members in dispatcher.c but those members are not visible. I created a `src/ui_core.h` and moved the structs `sigui_module_s` and `sigui_context_s` to that header and included in sigui.c & dispatcher.c
+

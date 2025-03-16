@@ -1,0 +1,117 @@
+gcc -Wall -g -fPIC -Iinclude -DTSTDBG -c test/test_dispatcher.c -o build/test/test_dispatcher.o
+test/test_dispatcher.c:242:19: warning: ‘create_keyboard_event’ defined but not used [-Wunused-function]
+  242 | static event_info create_keyboard_event(event_type type, int key_space, ui_input* input) {
+      |                   ^~~~~~~~~~~~~~~~~~~~~
+gcc build/test/test_dispatcher.o  build/dispatcher.o  build/sigui.o -o build/test/test_dispatcher -lsigcore -lsigtest -L/usr/lib
+Running test: build/test/test_dispatcher
+Running test: unit_testing 
+[DEBUG] Test Run Date=Mar-16-2025 [14:34]
+[PASS]
+Running test: queue_ui_event 
+   <Dispatch> equeued event
+[DEBUG] ei: type=0 mouse_x=10 mouse_y=20 mouse_button=1
+[PASS]
+Running test: dispatch_queued_event 
+   <Dispatch> equeued event
+   <Dispatch> event module=TestModule
+[DEBUG] ei: type=0 mouse_x=10 mouse_y=20 mouse_button=1
+[PASS]
+Running test: queue_ui_command 
+   <Dispatch> enqueued command
+[PASS]
+Running test: dispatch_queued_command 
+[DEBUG] creating ui context
+[DEBUG] created module=TestModule
+   <Dispatch> equeued event
+[DEBUG] dispatching events
+   <Dispatch> event module=TestModule
+[DEBUG] building command: event=0
+[DEBUG] enqueueing command name=test_cmd target=TestModule
+   <Dispatch> enqueued command
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=test_cmd
+   <Dispatch> command=test_cmd valid=TRUE target=TestModule
+   <Command> executed module=TestModule
+   <Dispatch> end
+[DEBUG] dispatching events
+   <Dispatch> begin
+[PASS]
+Running test: validate_input_transitions 
+[TEST] Starting Input Transitions Test
+[DEBUG] <Frame=0>
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> event module=TestWindow
+[DEBUG] handling event: type=0
+[DEBUG] enqueueing command name=click: show_message target=TestWindow
+   <Dispatch> enqueued command
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=click: show_message
+   <Dispatch> command=click: show_message valid=TRUE target=TestWindow
+   <Command> executed module=TestWindow
+   <Dispatch> end
+   Rendering module: TestWindow
+    --- Frame End ---
+[DEBUG] <Frame=1>
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> event module=TestWindow
+[DEBUG] handling event: type=1
+   <Dispatch> begin
+   Rendering module: TestWindow
+    --- Frame End ---
+[DEBUG] <Frame=2>
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> event module=TestWindow
+[DEBUG] handling event: type=0
+[DEBUG] enqueueing command name=click: show_message target=TestWindow
+   <Dispatch> enqueued command
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=click: show_message
+   <Dispatch> command=click: show_message valid=TRUE target=TestWindow
+   <Command> executed module=TestWindow
+   <Dispatch> end
+   Rendering module: TestWindow
+    --- Frame End ---
+[DEBUG] <Frame=3>
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> equeued event
+   <Dispatch> event module=TestWindow
+[DEBUG] handling event: type=1
+   <Dispatch> event module=TestWindow
+[DEBUG] handling event: type=4
+[DEBUG] enqueueing command name=key: toggle_state target=TestWindow
+   <Dispatch> enqueued command
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=key: toggle_state
+   <Dispatch> command=key: toggle_state valid=TRUE target=TestWindow
+   <Command> executed module=TestWindow
+   <Dispatch> end
+   Rendering module: TestWindow
+    --- Frame End ---
+[DEBUG] <Frame=4>
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> equeued event
+   <Dispatch> event module=TestWindow
+[DEBUG] handling event: type=0
+[DEBUG] enqueueing command name=click: show_message target=TestWindow
+   <Dispatch> enqueued command
+   <Dispatch> event module=TestWindow
+[DEBUG] handling event: type=5
+   <Dispatch> begin
+   <Dispatch> hasIterator=TRUE
+   <Dispatch> hasCommand=click: show_message
+   <Dispatch> command=click: show_message valid=TRUE target=TestWindow
+   <Command> executed module=TestWindow
+   <Dispatch> end
+   Rendering module: TestWindow
+    --- Frame End ---
+[PASS]
+rm build/test/test_dispatcher

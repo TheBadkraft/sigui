@@ -1,0 +1,45 @@
+gcc -Wall -g -fPIC -Iinclude -DTSTDBG -c test/test_context.c -o build/test/test_context.o
+gcc build/test/test_context.o  build/dispatcher.o  build/sigui.o -o build/test/test_context -lsigcore -lsigtest -L/usr/lib
+Running test: build/test/test_context
+Running test: unit_testing 
+[DEBUG] Test Run Date=Mar-16-2025 [12:58]
+[PASS]
+Running test: new_context 
+[DEBUG] TEST: new_context (ui_context is opaque)
+[PASS]
+Running test: add_module_to_context 
+[DEBUG] added module 'TestModule'
+[PASS]
+Running test: render_context_module 
+--- Frame Begin ---
+   <Dispatch> begin
+   Rendering module: TestModule
+       <Module> rendering 
+--- Frame End ---
+[DEBUG] rendered module 'TestModule'
+[PASS]
+Running test: render_with_input 
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> begin
+   Rendering module: TestModule
+       <Module> rendering : input { Mouse (x=10, y=20) Left=1 } { Keyboard Space=0 }
+--- Frame End ---
+[DEBUG] rendered module 'TestModule'
+[PASS]
+Running test: render_with_window 
+--- Frame Begin ---
+   <Dispatch> equeued event
+   <Dispatch> begin
+   Rendering module: TestModule
+       <Module> rendering : input { Mouse (x=10, y=20) Left=1 } { Keyboard Space=0 }
+--- Frame End ---
+[DEBUG] rendered module 'TestModule'
+[PASS]
+Running test: create_event_info 
+[DEBUG] ei: type=0 mouse_x=10 mouse_y=20
+[PASS]
+Running test: create_command_obj 
+[DEBUG] command=TestCommand
+[PASS]
+rm build/test/test_context
