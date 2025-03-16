@@ -47,5 +47,5 @@ Also, check out the [To-Do List][3] for ways to get involved.
 
 [1]: https://github.com/TheBadkraft/sigcore  
 [2]: https://github.com/TheBadkraft/sigui/blob/main/docs/current_status.md  
-[3]: https://github.com/TheBadkraft/gigui/blob/main/docs/to_do_list.md  
+[3]: https://github.com/TheBadkraft/sigui/blob/main/docs/to_do_list.md  
 [4]: https://github.com/TheBadkraft/sigui/blob/main/LICENSE
