@@ -1,0 +1,7 @@
+gcc -Wall -g -fPIC -Iinclude -DTSTDBG -c test/test_inputs.c -o build/test/test_inputs.o
+gcc build/test/test_inputs.o  build/dispatcher.o  build/sigui.o -o build/test/test_inputs -lsigcore -lsigtest -L/usr/lib
+Running test: build/test/test_inputs
+Running test: test_harness 
+[DEBUG] Test Run Date=Mar-16-2025 [16:22]
+[PASS]
+rm build/test/test_inputs

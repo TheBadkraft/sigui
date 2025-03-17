@@ -82,7 +82,7 @@ void render_with_input(void) {
 	ui_context ctx = Sigui.new_context(&state);
 	string mod_name = "TestModule";
 	Sigui.add_module(ctx, mod_name, dummy_render, NULL, NULL);
-	ui_input input = {10, 20, 1, 0};  /* Simulated input */
+	ui_input input = {10, 20, MOUSE_BUTTON_NONE, {0}};  /* Simulated input */
 	
 	Sigui.render(ctx, &input);
 	Sigui.free_context(ctx);
@@ -99,7 +99,7 @@ void render_with_window(void) {
 	window win = Sigui.new_window(10, 20, 100, 200);    
 	string mod_name = "TestModule";
 	Sigui.add_module(ctx, mod_name, dummy_render, NULL, win);
-	ui_input input = {10, 20, 1, 0};  /* Simulated input */
+	ui_input input = {10, 20, MOUSE_BUTTON_LEFT, {0}};  /* Simulated input */
 	
 	Sigui.render(ctx, &input);
 	Sigui.free_context(ctx);
@@ -120,9 +120,9 @@ void create_event_info(void) {
 	input.mouse_x = expMouseX;
 	input.mouse_y = expMouseY;
 	input.button = expMouseLeft;
-	input.key_space = expKeySpace;
+	input.keys[' '] = expKeySpace;
 	
-	event_info ei = Sigui.new_event(expType, &input);
+	event_info ei = Sigui.new_event(expType, &input, expMouseLeft);
 	
 	//	event_info only has event data
 	Assert.isTrue(ei != NULL, "event_info should not be NULL");
@@ -152,7 +152,7 @@ static void dummy_render(ui_context ctx, ui_module module, ui_input* input) {
 	printf("   <Module> rendering %s", input ? ": " : "\n");
 	if (input){
 		printf("input { Mouse (x=%d, y=%d) Left=%d } { Keyboard Space=%d }\n",
-			input->mouse_x, input->mouse_y, input->button, input->key_space); 
+			input->mouse_x, input->mouse_y, input->button, input->keys[' ']); 
 	}
 }
 
