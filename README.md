@@ -131,7 +131,7 @@ static void execute_toggle_state(ui_context ctx, ui_module m) {
 }
 ```
 Result of *Sprint 6*  
-[![Black w/ white quad](https://github.com/TheBadkraft/sigui/blob/main/docs/images/sigui_window.png)]  
+![Black w/ white quad](https://github.com/TheBadkraft/sigui/blob/main/docs/images/sigui_window.png)  
 
 ### Contributing  
 - Define test cases before coding (see *[Current Status]*[2] for process).
