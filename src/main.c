@@ -1,4 +1,5 @@
 #include "sigui.h"
+#include "render.h"
 #include "ui_core.h"
 
 const int FRAME_COUNT = 5;
@@ -13,6 +14,11 @@ static void execute_show_message(ui_context, ui_module);
 static void execute_toggle_state(ui_context, ui_module);
 
 int main(void) {
+	if (Render.init(800, 600) != 0) {
+		fprintf(stderr, "failed to initialize rendering engine\n");
+		return -1;
+	}
+	
 	app_state state = {100};
 	ui_context ctx = Sigui.new_context(&state);
 	if (!ctx) return -1;
@@ -21,18 +27,19 @@ int main(void) {
 	ui_module m = Sigui.add_module(ctx, "MainWindow", render_window, handle_window_event, win);
 	printf("[Main] module=%s\n", m->name);
 	
-	//	simulate frames w/ input
-	ui_input input = {0};
-	for (int i = 0; i < FRAME_COUNT; i++) {
-		input.mouse_x = i * 10;
-		input.mouse_y = i * 20;
-		input.button = (i % 2) == 0 ? 1 : 0;
-		input.key_space = (i == 3);
-
-		Sigui.render(ctx, &input);
+	//	main loop
+	int running = 1;
+	while (running) {
+		SDL_Event e;
+		while (SDL_PollEvent(&e)) {
+			if (e.type == SDL_QUIT) running = 0;
+		}
+		
+		Render.module(m);
 	}
-
+	
 	//	clean up
+	Render.dispose(NULL);
 	Sigui.free_context(ctx);
 
 	return 0;
@@ -43,7 +50,7 @@ static void render_window(ui_context ctx, ui_module module, ui_input* input) {
 	printf("   <window_module> rendering %s", input ? ": " : "\n");
 	if (input){
 		printf("input { Mouse (x=%d, y=%d) Button=%d } { Keyboard Space=%d }\n",
-			input->mouse_x, input->mouse_y, input->button, input->key_space); 
+			input->mouse_x, input->mouse_y, input->button, input->keys[' ']); 
 	}
 }
 static void handle_window_event(ui_context ctx, ui_module module, event_info ei) {

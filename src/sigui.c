@@ -58,6 +58,7 @@ static ui_module add_module(ui_context ctx, string name, ui_render renderer, eve
 	
 	ui_module m = Mem.alloc(sizeof(struct sigui_module_s));
 	if (!m) return NULL;
+	printf("   <Sigui> adding module name=%s\n", name);
 	
 	m->name = String.copy(name);
 	m->render = renderer;
