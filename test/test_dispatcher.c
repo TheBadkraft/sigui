@@ -3,6 +3,7 @@
 #include "../src/ui_core.h"
 #include <sigtest.h>
 #include <sigcore.h>
+#include <string.h>
 #include <time.h>
 
 // Assert.isTrue(condition, "fail message");
@@ -25,7 +26,7 @@ static void test_command_execute(ui_context, ui_module);
 //	command handler
 static void test_command_handler(ui_context, ui_module, event_info);
 //	create a mouse event_info object
-static event_info create_mouse_event(event_type, int, int, mouse_button, ui_input*);
+static event_info create_mouse_event(event_type, int, int, int, ui_input*);
 //	create a keyboard event_info object
 static event_info create_keyboard_event(event_type, int, ui_input*);
 //	reset event counts
@@ -162,7 +163,7 @@ static void validate_input_transitions(void) {
 		input.mouse_x = i * 10;
 		input.mouse_y = i * 20;
 		input.button = (i % 2) == 0 ? MOUSE_BUTTON_LEFT : MOUSE_BUTTON_NONE;
-		input.key_space = (i == 3);
+		input.keys['A'] = (i == 3);
 		
 		Sigui.render(ctx, &input);
 		
@@ -231,21 +232,24 @@ static void test_command_handler(ui_context ctx, ui_module module, event_info ei
 		Dispatcher.queue_command(ctx, cmd);
 	}
 }
-static event_info create_mouse_event(event_type type, int mouse_x, int mouse_y, mouse_button button, ui_input* input) {
+static event_info create_mouse_event(event_type type, int mouse_x, int mouse_y, int button, ui_input* input) {
 	input->mouse_x = mouse_x;
 	input->mouse_y = mouse_y;
 	input->button = button;
-	input->key_space = 0;
+	//	reset keys
+	memset(input->keys, 0, sizeof(input->keys));
 	
-	return Sigui.new_event(type, input);
+	return Sigui.new_event(type, input, button);
 }
-static event_info create_keyboard_event(event_type type, int key_space, ui_input* input) {
+static event_info create_keyboard_event(event_type type, int key, ui_input* input) {
 	input->mouse_x = 0;
 	input->mouse_y = 0;
 	input->button = 0;
-	input->key_space = key_space;
+	//	reset keys
+	memset(input->keys, 0, sizeof(input->keys));
+	input->keys[key] = 1;
 	
-	return Sigui.new_event(type, input);
+	return Sigui.new_event(type, input, key);
 }
 static void reset_event_counts(void) {
 	//	reset event counts

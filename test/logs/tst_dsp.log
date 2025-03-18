@@ -1,11 +1,11 @@
 gcc -Wall -g -fPIC -Iinclude -DTSTDBG -c test/test_dispatcher.c -o build/test/test_dispatcher.o
-test/test_dispatcher.c:242:19: warning: ‘create_keyboard_event’ defined but not used [-Wunused-function]
-  242 | static event_info create_keyboard_event(event_type type, int key_space, ui_input* input) {
+test/test_dispatcher.c:244:19: warning: ‘create_keyboard_event’ defined but not used [-Wunused-function]
+  244 | static event_info create_keyboard_event(event_type type, int key, ui_input* input) {
       |                   ^~~~~~~~~~~~~~~~~~~~~
 gcc build/test/test_dispatcher.o  build/dispatcher.o  build/sigui.o -o build/test/test_dispatcher -lsigcore -lsigtest -L/usr/lib
 Running test: build/test/test_dispatcher
 Running test: unit_testing 
-[DEBUG] Test Run Date=Mar-16-2025 [14:34]
+[DEBUG] Test Run Date=Mar-16-2025 [19:45]
 [PASS]
 Running test: queue_ui_event 
    <Dispatch> equeued event
@@ -85,14 +85,7 @@ Running test: validate_input_transitions
 [DEBUG] handling event: type=1
    <Dispatch> event module=TestWindow
 [DEBUG] handling event: type=4
-[DEBUG] enqueueing command name=key: toggle_state target=TestWindow
-   <Dispatch> enqueued command
    <Dispatch> begin
-   <Dispatch> hasIterator=TRUE
-   <Dispatch> hasCommand=key: toggle_state
-   <Dispatch> command=key: toggle_state valid=TRUE target=TestWindow
-   <Command> executed module=TestWindow
-   <Dispatch> end
    Rendering module: TestWindow
     --- Frame End ---
 [DEBUG] <Frame=4>

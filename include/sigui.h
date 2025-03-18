@@ -24,20 +24,20 @@ typedef enum {
 /** @breif Mouse buttons */
 typedef enum {
 	//	[TODO] TASK: use to create button masking for multiple buttons
-	MOUSE_BUTTON_NONE = 0,
-	MOUSE_BUTTON_LEFT = 1,
-	MOUSE_BUTTON_RIGHT = 2,
-	MOUSE_BUTTON_CENTER = 4,
-	MOUSE_BUTTON_4 = 8,
-	MOUSE_BUTTON_5 = 16,
-	MOSUE_BUTTON_6 = 32,
+	MOUSE_BUTTON_NONE = 0,				// 0
+	MOUSE_BUTTON_LEFT = 1 << 0,		// 1
+	MOUSE_BUTTON_RIGHT = 1 << 1,		// 2
+	MOUSE_BUTTON_CENTER = 1 << 2,		// 4
+	MOUSE_BUTTON_4 = 1 << 3,			// 8
+	MOUSE_BUTTON_5 = 1 << 4,			// 16
+	MOSUE_BUTTON_6 = 1 << 5,			// 32
 } mouse_button;
 /** @brief Input state for mouse and keyboard */
 typedef struct ui_input_s {
 	int mouse_x, mouse_y;		/**< Mouse position. */
-	mouse_button button;			/**< Mouse button: 0 = left, 1 = right, 2 = center */
+	uint32_t button;				/**< Mouse button mask */
 	//	[TODO] TASK: update keyboard input similar to mouse updates
-	int key_space;					/**< 1 = pressed; 0 = released */
+	uint8_t keys[256];			/**< key states: 1 = pressed; 0 = released */
 } ui_input;
 struct input_state_s {
 	ui_input* state;
@@ -55,7 +55,7 @@ struct event_s {
 	union {
 		struct {
 			int x, y;				/**< Mouse coordinates (if applicable) */
-			mouse_button button;	/**< Mouse button id */
+			uint32_t button;		/**< Mouse button id */
 		} mouse;						/**< Data for mouse events */
 		struct {
 			int key_code;			/**< Key code (if applicable) */
@@ -95,7 +95,8 @@ typedef struct ISigui {
 	ui_module (*add_module)(ui_context, string, 		/**< Adds a module with a name and render function */
 							 		ui_render, event_handler, window);
 	void (*render)(ui_context, ui_input*);				/**< Renders all enabled modules with input */
-	event_info (*new_event)(event_type, ui_input*);	/**< Create a new event */
+	event_info (*new_event)(event_type, ui_input*,	/**< Create a new event */
+									uint32_t);
 	command (*new_command)(const string);				/**< Create a new command */
 } ISigui;
 /**

@@ -11,18 +11,17 @@ static ui_input INIT_INPUT = {0};
 //	Private structs =============================================================
 typedef struct input_delta_s {
 	// [TODO] TASK: determine if this will benefit from mask values
-	int mouse_button_pressed;	// 1 if transitioned to pressed
-	int mouse_button_released;	//	1 if transitioned to released
-	mouse_button button;			//	left, right, center buttons
+	uint32_t mouse_button_pressed;	// bitmask of pressed buttons
+	uint32_t mouse_button_released;	//	bitmask of release buttons
 	//	[TODO] TASK: update keyboard input delta (masking ???)
-	int key_space_pressed;		// 1 if space key transitioned to pressed
-	int key_space_released;		//	1 if space key transitioned to releaseed
+	uint8_t key_pressed[256];			// array of pressed keys
+	uint8_t key_released[256];			//	array of released keys
 } input_delta;
 
 //	Helper Functions ============================================================
 static void generate_events(ui_context, ui_input*);
 static input_delta compute_input_delta(ui_input*, ui_input*);
-static event_info create_event(event_type, ui_input*);
+static event_info create_event(event_type, ui_input*, uint32_t);
 
 /* creates a new sigui context */
 static ui_context new_ui_context(object state) {
@@ -59,6 +58,7 @@ static ui_module add_module(ui_context ctx, string name, ui_render renderer, eve
 	
 	ui_module m = Mem.alloc(sizeof(struct sigui_module_s));
 	if (!m) return NULL;
+	printf("   <Sigui> adding module name=%s\n", name);
 	
 	m->name = String.copy(name);
 	m->render = renderer;
@@ -138,19 +138,28 @@ static void free_ui_context(ui_context ctx) {
 }
 
 /* event factory */
-static event_info create_event(event_type type, ui_input* input) {
+static event_info create_event(event_type type, ui_input* input, uint32_t value) {
 	event e = Mem.alloc(sizeof(struct event_s));
 	if (!e) return NULL;
 	
 	e->type = type;
 	
-	//	[TODO] TASK: let's turn this into a switch-case and figure out what happend if the type is invalid ...
-	if (type == EVENT_MOUSE_PRESS || type == EVENT_MOUSE_RELEASE) {
-		e->data.mouse.x = input->mouse_x;
-		e->data.mouse.y = input->mouse_y;
-		e->data.mouse.button = input->button;
-	} else if (type == EVENT_KEY_PRESS || type == EVENT_KEY_RELEASE) {
-		e->data.key.key_code = ' ';
+	switch (type) {
+		case EVENT_MOUSE_PRESS:
+		case EVENT_MOUSE_RELEASE:
+			e->data.mouse.x = input->mouse_x;
+			e->data.mouse.y = input->mouse_y;
+			e->data.mouse.button = value;
+		
+			break;
+		case EVENT_KEY_PRESS:
+		case EVENT_KEY_RELEASE:
+			e->data.key.key_code = (int)value;
+			
+			break;
+		default:
+			Mem.free(e);
+			return NULL;
 	}
 	
 	event_info ei = Mem.alloc(sizeof(struct event_info_s));
@@ -175,38 +184,80 @@ static command create_command(const string name) {
 static void generate_events(ui_context ctx, ui_input* input) {
 	if (!ctx || !input) return;
 	
+	//	[TODO] TASK: handle mouse move
+	//	[TODO] TASK; handle mouse wheel click (might be one of the button #s
+	//	[TODO] TASK: handle mouse wheel scroll
+	//	[TODO] TASK: ensure test case handles a modifer + mouse_button (SHIFT + click)
+	
 	//	use the previous state before overwriting
 	ui_input prev_input = ctx->input_state;
 	input_delta delta = compute_input_delta(input, &prev_input);
 	
-	if (delta.mouse_button_pressed) {
-		event_info ei = create_event(EVENT_MOUSE_PRESS, input);
-		if (ei) Dispatcher.queue_event(ctx, ei);
+	//	mouse events
+	if (delta.mouse_button_pressed & MOUSE_BUTTON_LEFT) {
+		event_info ei = create_event(EVENT_MOUSE_PRESS, input, MOUSE_BUTTON_LEFT);
+		if (ei) {
+			ei->e->data.mouse.button = MOUSE_BUTTON_LEFT;
+			Dispatcher.queue_event(ctx, ei);
+		}
 	}
-	if (delta.mouse_button_released) {
-		event_info ei = create_event(EVENT_MOUSE_RELEASE, input);
-		if (ei) Dispatcher.queue_event(ctx, ei);
+	if (delta.mouse_button_released & MOUSE_BUTTON_LEFT) {
+		event_info ei = create_event(EVENT_MOUSE_RELEASE, input, MOUSE_BUTTON_LEFT);
+		if (ei) {
+			ei->e->data.mouse.button = MOUSE_BUTTON_LEFT;
+			Dispatcher.queue_event(ctx, ei);
+		}
 	}
-	if (delta.key_space_pressed) {
-		event_info ei = create_event(EVENT_KEY_PRESS, input);
-		if (ei) Dispatcher.queue_event(ctx, ei);
+	if (delta.mouse_button_pressed & MOUSE_BUTTON_RIGHT) {
+		event_info ei = create_event(EVENT_MOUSE_PRESS, input, MOUSE_BUTTON_RIGHT);
+		if (ei) {
+			ei->e->data.mouse.button = MOUSE_BUTTON_RIGHT;
+			Dispatcher.queue_event(ctx, ei);
+		}
 	}
-	if (delta.key_space_released) {
-		event_info ei = create_event(EVENT_KEY_RELEASE, input);
-		if (ei) Dispatcher.queue_event(ctx, ei);
+	if (delta.mouse_button_released & MOUSE_BUTTON_RIGHT) {
+		event_info ei = create_event(EVENT_MOUSE_RELEASE, input, MOUSE_BUTTON_RIGHT);
+		if (ei) {
+			ei->e->data.mouse.button = MOUSE_BUTTON_RIGHT;
+			Dispatcher.queue_event(ctx, ei);
+		}
+	}
+	/*	add more mouse buttons/wheel/move as needed */
+	
+	//	key events
+	int i = 0;
+	while (i < sizeof(INIT_INPUT.keys)) {
+		if (delta.key_pressed[i]) {
+			event_info ei = create_event(EVENT_KEY_PRESS, input, i);
+			if (ei) Dispatcher.queue_event(ctx, ei);
+		}
+		if (delta.key_released[i]) {
+			event_info ei = create_event(EVENT_KEY_RELEASE, input, i);
+			if (ei) Dispatcher.queue_event(ctx, ei);
+		}
+		
+		++i;
 	}
 	
 	ctx->input_state = *input;
 }
 /* compute input delta helper */
 static input_delta compute_input_delta(ui_input* current, ui_input* prev) {
-	// [TODO] TASK: to be enhanced when we implement masking for multiple buttons/keys/modifiets (SHIFT/ALT,CTRL)
+	// [TODO] TASK: to be enhanced when we implement masking for multiple keys + modifiets (SHIFT/ALT,CTRL)
 	input_delta delta = {0};
-	delta.mouse_button_pressed = current->button && !prev->button;
-	delta.mouse_button_released = !current->button && prev->button;
 	
-	delta.key_space_pressed = current->key_space && !prev->key_space;
-	delta.key_space_released = !current->key_space && prev->key_space;
+	//	mouse button transitions
+	delta.mouse_button_pressed = current->button & ~prev->button;
+	delta.mouse_button_released = ~current->button & prev->button;
+	
+	//	key transitions
+	int i = 0;
+	while (i < sizeof(INIT_INPUT.keys)) {
+		delta.key_pressed[i] = current->keys[i] && !prev->keys[i];
+		delta.key_released[i] = !current->keys[i] && prev->keys[i];
+	
+		i++;
+	}
 	
 	return delta;
 }

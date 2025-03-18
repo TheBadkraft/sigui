@@ -1,0 +1,26 @@
+gcc  build/test/test_context.o  build/test/test_dispatcher.o  build/test/test_inputs.o  build/test/test_rendering.o  build/dispatcher.o  build/render.o  build/sigui.o build/test/sigui_debug.o   -o build/test/run_tests -lsigcore -lsigtest -L/usr/lib
+/usr/bin/ld: build/test/test_dispatcher.o: in function `flogf':
+/home/badkraft/repos/razorware/sigui/test/test_dispatcher.c:88: multiple definition of `flogf'; build/test/test_context.o:/home/badkraft/repos/razorware/sigui/test/test_context.c:88: first defined here
+/usr/bin/ld: build/test/test_dispatcher.o: in function `unit_testing':
+/home/badkraft/repos/razorware/sigui/test/test_dispatcher.c:36: multiple definition of `unit_testing'; build/test/test_context.o:/home/badkraft/repos/razorware/sigui/test/test_context.c:19: first defined here
+/usr/bin/ld: build/test/test_dispatcher.o: in function `init_sigtest_tests':
+/home/badkraft/repos/razorware/sigui/test/test_dispatcher.c:260: multiple definition of `init_sigtest_tests'; build/test/test_context.o:/home/badkraft/repos/razorware/sigui/test/test_context.c:161: first defined here
+/usr/bin/ld: build/test/test_inputs.o: in function `flogf':
+/home/badkraft/repos/razorware/sigui/test/test_inputs.c:88: multiple definition of `flogf'; build/test/test_context.o:/home/badkraft/repos/razorware/sigui/test/test_context.c:88: first defined here
+/usr/bin/ld: build/test/test_inputs.o: in function `init_sigtest_tests':
+/home/badkraft/repos/razorware/sigui/test/test_inputs.c:209: multiple definition of `init_sigtest_tests'; build/test/test_context.o:/home/badkraft/repos/razorware/sigui/test/test_context.c:161: first defined here
+/usr/bin/ld: build/test/test_rendering.o: in function `flogf':
+/home/badkraft/repos/razorware/sigui/test/test_rendering.c:88: multiple definition of `flogf'; build/test/test_context.o:/home/badkraft/repos/razorware/sigui/test/test_context.c:88: first defined here
+/usr/bin/ld: build/test/test_rendering.o: in function `test_harness':
+/home/badkraft/repos/razorware/sigui/test/test_rendering.c:22: multiple definition of `test_harness'; build/test/test_inputs.o:/home/badkraft/repos/razorware/sigui/test/test_inputs.c:38: first defined here
+/usr/bin/ld: build/test/test_rendering.o: in function `init_sigtest_tests':
+/home/badkraft/repos/razorware/sigui/test/test_rendering.c:132: multiple definition of `init_sigtest_tests'; build/test/test_context.o:/home/badkraft/repos/razorware/sigui/test/test_context.c:161: first defined here
+/usr/bin/ld: build/render.o: in function `init_window':
+/home/badkraft/repos/razorware/sigui/src/render.c:52:(.text+0x8e): undefined reference to `SDL_GetError'
+/usr/bin/ld: /home/badkraft/repos/razorware/sigui/src/render.c:56:(.text+0xa7): undefined reference to `SDL_GL_SetAttribute'
+/usr/bin/ld: /home/badkraft/repos/razorware/sigui/src/render.c:57:(.text+0xb6): undefined reference to `SDL_GL_SetAttribute'
+/usr/bin/ld: /home/badkraft/repos/razorware/sigui/src/render.c:63:(.text+0xeb): undefined reference to `SDL_GetError'
+/usr/bin/ld: build/render.o: in function `cleanup':
+/home/badkraft/repos/razorware/sigui/src/render.c:82:(.text+0x156): undefined reference to `SDL_ClearError'
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:64: build/test/run_tests] Error 1

@@ -1,0 +1,34 @@
+gcc -Wall -g -fPIC -Iinclude -DSIDBUG -DSIMOCK -c test/test_rendering.c -o build/test/test_rendering.o
+gcc build/test/test_rendering.o build/dispatcher.o build/sigui.o build/test/sigui_debug.o   build/test/render.o -o build/test/test_rendering -lsigcore -lsigtest -L/usr/lib
+Running test: build/test/test_rendering
+Running test: test_harness 
+[DEBUG] Configuring sigui debugging ...
+[DEBUG]  -SIDBUG defined=TRUE
+[DEBUG]  -SIMOCK defined=TRUE
+[DBLOG] Begin Mock Tests Date=Mar-17-2025 [20:34]
+[PASS]
+Running test: render_engine_init 
+[DEBUG] rendering engine initialization test
+[DBLOG] Initializing render engine: width=800 height=600
+[DBLOG] Render engine initialized
+[DBLOG] Exiting render engine (0)
+[DBLOG] Render engine cleanup complete.
+[PASS]
+Running test: test_render_engine_cleanup 
+[DEBUG] rendering engine cleanup test
+[DBLOG] Initializing render engine: width=800 height=600
+[DBLOG] Render engine initialized
+[DBLOG] Exiting render engine (0)
+[DBLOG] Render engine cleanup complete.
+[PASS]
+Running test: test_render_module 
+[DEBUG] rendering module
+   <Sigui> adding module name=TestModule
+[DEBUG] module=TestModule window=TRUE
+[DBLOG] Initializing render engine: width=800 height=600
+[DBLOG] Render engine initialized
+[DBLOG] Rendering module window at x=50 y=50 w=300 h=400
+[DBLOG] Exiting render engine (0)
+[DBLOG] Render engine cleanup complete.
+[PASS]
+rm build/test/test_rendering

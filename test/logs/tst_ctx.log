@@ -2,7 +2,7 @@ gcc -Wall -g -fPIC -Iinclude -DTSTDBG -c test/test_context.c -o build/test/test_
 gcc build/test/test_context.o  build/dispatcher.o  build/sigui.o -o build/test/test_context -lsigcore -lsigtest -L/usr/lib
 Running test: build/test/test_context
 Running test: unit_testing 
-[DEBUG] Test Run Date=Mar-16-2025 [12:58]
+[DEBUG] Test Run Date=Mar-16-2025 [19:42]
 [PASS]
 Running test: new_context 
 [DEBUG] TEST: new_context (ui_context is opaque)
@@ -20,10 +20,9 @@ Running test: render_context_module
 [PASS]
 Running test: render_with_input 
 --- Frame Begin ---
-   <Dispatch> equeued event
    <Dispatch> begin
    Rendering module: TestModule
-       <Module> rendering : input { Mouse (x=10, y=20) Left=1 } { Keyboard Space=0 }
+       <Module> rendering : input { Mouse (x=10, y=20) Left=0 } { Keyboard Space=0 }
 --- Frame End ---
 [DEBUG] rendered module 'TestModule'
 [PASS]
