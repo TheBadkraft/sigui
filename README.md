@@ -134,7 +134,7 @@ Result of *Sprint 6*
 ![Black w/ white quad](https://github.com/TheBadkraft/sigui/blob/main/docs/images/sigui_window.png)  
 
 ### Contributing  
-- Define test cases before coding (see *[Current Status]*[2] for process).
+- Define test cases before coding (see *[Current Status][2]* for process).
 - Submit pull requests with tests and documentation updates prior to adding features, enhancements, etc.
 
 ### License  
